@@ -62,10 +62,10 @@ class SedoDomain extends Sedo
                 'domain' => $domain,
                 'category' => ['park'],
                 'forsale' => 0,
-                'price' => 0,
+                'price' => 20, // 'price' => 0,
                 'minprice' => 0,
                 'fixedprice' => 0,
-                'currency' => SedoDomain::CURRENCY_USD,
+                'currency' => SedoDomain::CURRENCY_EUR, // CURRENCY_EUR CURRENCY_USD
                 'domainlanguage' => 'en',
             ];
         }
