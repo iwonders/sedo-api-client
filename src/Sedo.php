@@ -389,7 +389,7 @@ class Sedo
             $data['ip'] = $_SERVER['REMOTE_ADDR'];
         }
 
-        return ", " . json_encode($data);
+        return date('Y-m-d H:i:s: sedo log:') . json_encode($data)."\n";
     }
 
     /**
