@@ -361,9 +361,6 @@ class Sedo
         if(!$this->isLog()) return;
 
         $logFile = fopen("{$this->logPath}/{$this->getLogFileName()}", "a");
-        if (!is_dir($logFile)) {
-            mkdir($logFile, 0777, true); // 第三个参数为 true 表示递归创建目录
-        }
 
         if(! $logFile) {
             throw new UnableToOpenFileException("Unable to open log file.");
