@@ -360,13 +360,30 @@ class Sedo
     {
         if(!$this->isLog()) return;
 
-        $logFile = fopen("{$this->logPath}/{$this->getLogFileName()}", "a");
+        // echo "logPath={$this->logPath} , ";
+        // echo "logFileName={$this->getLogFileName()}";
+
+        // check and create dir
+        if (!is_dir($this->logPath)) {
+            mkdir($this->logPath, 0777, true); // set permission 0777
+        }
+
+        $logFilePath = "{$this->logPath}/{$this->getLogFileName()}";
+
+        // check and create the file
+        if (!file_exists($logFilePath)) {
+            file_put_contents($logFilePath, ''); 
+            chmod($logFilePath, 0777); // set permission 0777
+        }
+
+        $logFile = fopen($logFilePath, "a");
 
         if(! $logFile) {
             throw new UnableToOpenFileException("Unable to open log file.");
         }
 
         fwrite($logFile, $this->getLogContent());
+        fclose($logFile); // remember close the log file
     }
 
     /**
