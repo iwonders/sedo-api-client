@@ -394,19 +394,30 @@ class Sedo
     {
         $dt = new DateTime();
 
+        $response = json_decode(json_encode($this->getResponse()), true);
+
         $data = [
             'wsdl' => $this->wsdl,
             'time' => $dt->format('Y-m-d H:i:s'),
             'method' => $this->method,
             'request' => $this->getRequest(),
+            'count' => count($response),
             'response' => $this->getResponse(),
         ];
 
-        if(isset($_SERVER['REMOTE_ADDR'])) {
+        if(count($response) > 10){
+            // to mush data will make the log file too big, so only show first 10
+            $data['response'] = array_slice($response, 0, 10);
+        }
+
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $data['ip'] = trim($ips[0]);
+        }elseif(isset($_SERVER['REMOTE_ADDR'])) {
             $data['ip'] = $_SERVER['REMOTE_ADDR'];
         }
 
-        return date('Y-m-d H:i:s: sedo log:') . json_encode($data)."\n";
+        return date('Y-m-d H:i:s') .'sedo log:' . json_encode($data)."\n";
     }
 
     /**
